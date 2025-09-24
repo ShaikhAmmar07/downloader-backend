@@ -1,14 +1,13 @@
 const express = require('express');
 const cors = require('cors');
-const ytDlpExec = require('yt-dlp-exec').default;
+// Import the new library
+const youtubedl = require('youtube-dl-exec');
 
 const app = express();
-// Render provides the PORT environment variable
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 
-// A simple root endpoint to confirm the server is running
 app.get('/', (req, res) => {
     res.send('Downloader backend is awake and running!');
 });
@@ -21,7 +20,8 @@ app.get('/download-info', async (req, res) => {
 
     console.log(`Fetching info for: ${videoUrl}`);
     try {
-        const metadata = await ytDlpExec(videoUrl, {
+        // Call the new library with the same flags
+        const metadata = await youtubedl(videoUrl, {
             dumpSingleJson: true,
             noWarnings: true,
             noCheckCertificate: true,
