@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "postinstall": "yt-dlp-wrap --download"
+    "postinstall": "npx yt-dlp-wrap --download"
   },
   "dependencies": {
     "cors": "^2.8.5",
