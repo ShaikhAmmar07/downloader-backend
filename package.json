@@ -4,13 +4,12 @@
   "description": "Video downloader backend for Render",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "postinstall": "npx yt-dlp-wrap --download"
+    "start": "node server.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.18.2",
-    "yt-dlp-wrap": "2.3.12"
+    "yt-dlp": "^2.1.2"
   },
   "engines": {
     "node": "20.x"
