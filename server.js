@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const ytdlp = require('yt-dlp');
+const youtubedl = require('youtube-dl-exec');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -19,15 +19,12 @@ app.get('/download-info', async (req, res) => {
 
     console.log(`Fetching info for: ${videoUrl}`);
     try {
-        // This library returns the raw JSON as a string, so we need to parse it.
-        const rawMetadata = await ytdlp(videoUrl, {
+        const metadata = await youtubedl(videoUrl, {
             dumpSingleJson: true,
             noWarnings: true,
             noCheckCertificate: true,
             preferFreeFormats: true,
         });
-
-        const metadata = JSON.parse(rawMetadata);
         
         const formats = metadata.formats
             .filter(f => (f.vcodec !== 'none' || f.acodec !== 'none') && f.url)
