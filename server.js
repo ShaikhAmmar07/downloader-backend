@@ -1,9 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const YtDlpWrap = require('yt-dlp-wrap').default;
-
-// Initialize the yt-dlp wrapper
-const ytDlpWrap = new YtDlpWrap();
+const ytdlp = require('yt-dlp');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -22,7 +19,15 @@ app.get('/download-info', async (req, res) => {
 
     console.log(`Fetching info for: ${videoUrl}`);
     try {
-        const metadata = await ytDlpWrap.getVideoInfo(videoUrl);
+        // This library returns the raw JSON as a string, so we need to parse it.
+        const rawMetadata = await ytdlp(videoUrl, {
+            dumpSingleJson: true,
+            noWarnings: true,
+            noCheckCertificate: true,
+            preferFreeFormats: true,
+        });
+
+        const metadata = JSON.parse(rawMetadata);
         
         const formats = metadata.formats
             .filter(f => (f.vcodec !== 'none' || f.acodec !== 'none') && f.url)
