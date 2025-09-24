@@ -1,10 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 const YtDlpWrap = require('yt-dlp-wrap').default;
-const ytDlp = require('@yt-dlp-installer/yt-dlp');
 
-// Initialize the wrapper and tell it the exact path of the yt-dlp binary
-const ytDlpWrap = new YtDlpWrap(ytDlp.path);
+// Initialize the yt-dlp wrapper
+const ytDlpWrap = new YtDlpWrap();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -23,7 +22,6 @@ app.get('/download-info', async (req, res) => {
 
     console.log(`Fetching info for: ${videoUrl}`);
     try {
-        // Now we use the wrapper's built-in function, which is clean and reliable
         const metadata = await ytDlpWrap.getVideoInfo(videoUrl);
         
         const formats = metadata.formats
